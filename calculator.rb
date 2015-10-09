@@ -40,7 +40,7 @@ def ask_for_input
 end
 
 def calculate(equation)
-  "= #{eval(equation)}"
+  "= #{eval(equation)} <-- Is this all you wanted? All you've ever dreamed of?"
 end
 
 
