@@ -40,39 +40,52 @@ each
    *, /, %, -
 
 =end
-require 'pry'
+
 
 def not_a_number?(number)
   !(number =~ /\A[-+]?[0-9]*\.?[0-9]+\Z/)
 end
 
 def not_an_operator?(operator)
-  !(operator =~ /[\-\+\*\/\=]/)
+  !(operator =~ /[\-\+\*\/\=\n]/m)
 end
 
 def ask_for_input
-  numbers   = []
-  operators = []
   equation  = ""
 
-  until operator == "="
+  loop do
     print "Enter number: "
     number = gets.chomp
     if not_a_number?(number)
       puts "That's not a number, idiot!"
       redo
+    else
+      equation << number << " "
+      puts equation
     end
-    numbers << number
 
     loop do
       print "Enter operator: "
-      operator = gets.chomp
+      operator = gets
       if not_an_operator?(operator)
         puts "That's not an operator, jerk!"
         redo
+      elsif operator == "=" || operator == "\n"
+        puts
+        print equation
+        return equation
+      else
+        equation  << operator.chomp << " "
+        puts equation
+        break
       end
-      break if operator == "="
-      operators << operator
     end
   end
 end
+
+def calculate(equation)
+  "= #{eval(equation)}"
+end
+
+puts calculate(ask_for_input)
+puts
