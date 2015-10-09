@@ -21,7 +21,7 @@ def ask_for_input
     end
 
     loop do
-      print "Enter operator: "
+      print "Enter operator (+, -, /, *) or press Enter (or '=') to calculate: "
       operator = gets
       if not_an_operator?(operator)
         puts "That's not an operator, jerk!"
