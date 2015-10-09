@@ -1,5 +1,4 @@
 =begin
-
 What are you trying to build?
   A calculator that can add, subtract, multiply, and divide two
   inputs.
@@ -23,16 +22,57 @@ What are the logical steps to accomplish your goal?
   Output
     - Print the answer.
 
-=end
+ask
+get if not number: error
+print
+ask
+get
+print
 
-# number_index can only be 1 or 2.
-def ask_for_number(one_or_two)
-  ordinal_number = proc { |number| "#{number}#{ number == 1 ? 'st' : 'nd'} number: " }
-  print "Please enter the #{ordinal_number.call(one_or_two)}"
+to_arr
+each
+  add number to "equals" if first in arr
+  case
+    number
+    symbol
+
+1, 2, 3, 4, 5
+   *, /, %, -
+
+=end
+require 'pry'
+
+def not_a_number?(number)
+  !(number =~ /\A[-+]?[0-9]*\.?[0-9]+\Z/)
 end
 
-ask_for_number(1)
-first_number = gets.chomp
+def not_an_operator?(operator)
+  !(operator =~ /[\-\+\*\/\=]/)
+end
 
-ask_for_number(2)
-second_number = gets.chomp
+def ask_for_input
+  numbers   = []
+  operators = []
+  equation  = ""
+
+  until operator == "="
+    print "Enter number: "
+    number = gets.chomp
+    if not_a_number?(number)
+      puts "That's not a number, idiot!"
+      redo
+    end
+    numbers << number
+
+    loop do
+      print "Enter operator: "
+      operator = gets.chomp
+      if not_an_operator?(operator)
+        puts "That's not an operator, jerk!"
+        redo
+      end
+      break if operator == "="
+      operators << operator
+    end
+  end
+end
