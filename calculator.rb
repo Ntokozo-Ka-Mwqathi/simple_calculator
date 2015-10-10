@@ -1,31 +1,43 @@
-def not_a_number?(number)
-  !(number =~ /\A[-+]?[0-9]*\.?[0-9]+\Z/)
+def get_number
+  number = ''
+  loop do 
+    puts "Enter number:"
+    number = gets.chomp
+    break unless not_a_number?(number)
+  end
+  number
 end
 
-def not_an_operator?(operator)
-  !(operator =~ /[\-\+\*\/\=\n]/m)
+def get_operator
+  operator = ''
+  loop do
+    puts "Enter operator (+, -, /, *) or press Enter (or '=') to calculate:"
+    operator = gets
+    break unless not_an_operator?(operator)
+  end
+  opertor
+end
+
+def add_to_equation
+
+end
+
+def done?(operator)
 end
 
 def ask_for_input
   equation = ""
 
   loop do
-    print "Enter number: "
-    number = gets.chomp
-    if not_a_number?(number)
-      puts "That's not a number, idiot!"
-      redo
-    else
+    number   = get_number
+    operator = get_operator
+    done?(opertor)
+    add_to_equation(number)
+    add_to_equation(operator)
+
       equation << number << " "
       puts equation
-    end
 
-    loop do
-      print "Enter operator (+, -, /, *) or press Enter (or '=') to calculate: "
-      operator = gets
-      if not_an_operator?(operator)
-        puts "That's not an operator, jerk!"
-        redo
       elsif operator == "=" || operator == "\n"
         puts
         print equation
@@ -39,8 +51,16 @@ def ask_for_input
   end
 end
 
+def not_a_number?(number)
+  !(number =~ /\A[-+]?[0-9]*\.?[0-9]+\Z/)
+end
+
+def not_an_operator?(operator)
+  !(operator =~ /[\-\+\*\/\=\n]/m)
+end
+
 def calculate(equation)
-  "= #{eval(equation)} <-- Is this all you wanted? All you've ever dreamed of?"
+  "= #{eval(equation)}?"
 end
 
 
