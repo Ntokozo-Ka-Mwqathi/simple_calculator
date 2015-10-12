@@ -6,27 +6,32 @@ end
 def build_equation
   equation = ""
   loop do 
-    number = get_number
-    update_equation(equation, number)
-    operator = get_operator
+    input = get_input_for_equation
+    update_equation(equation, input)
     break if operator == '='
-    update_equation(equation, operator)
   end
   equation
 end
 
-def get_number
-  number = ''
+def get_input_for_equation
+  input = ''
   loop do 
-    print "Enter number: "
-    number = gets.chomp
-    break if is_number?(number)
+    puts "Enter a number or any of the options below to build your equation."
+    puts "Available options: '+', '-', '*', '/', '%', '(', ')' '**'"
+    puts "When you are done building your equation, enter '='."
+    input = gets.chomp
+    break if is_number?(input)
+    break if is_operator?(input)
   end
-  number
+  input
 end
 
 def is_number?(string)
   true if Float(string) rescue false
+end
+
+def is_operator?(operator)
+  %w(- * + / =).include?(operator)
 end
 
 def update_equation(equation, user_input)
@@ -42,20 +47,6 @@ end
 def print_equation(equation)
   system "clear"
   puts equation
-end
-
-def get_operator
-  operator = ''
-  loop do
-    print "Submit operator (+, -, /, *) or enter '=' to calculate: "
-    operator = gets.chomp
-    break if is_operator?(operator)
-  end
-  operator
-end
-
-def is_operator?(operator)
-  %w(- * + / =).include?(operator)
 end
 
 # START's HERE
