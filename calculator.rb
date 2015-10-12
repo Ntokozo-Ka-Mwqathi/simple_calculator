@@ -1,14 +1,15 @@
 def calculate(equation)
+  system "clear"
   "#{equation}= #{eval(equation)}"
 end
 
 def build_equation
   equation = ""
   loop do 
-    number   = get_number
+    number = get_number
     update_equation(equation, number)
     operator = get_operator
-    break if done?(operator)
+    break if operator_is_equals_sign?(operator)
     update_equation(equation, operator.chomp)
   end
   equation
@@ -19,7 +20,7 @@ def get_number
   loop do 
     print "Enter number: "
     number = gets.chomp
-    break unless not_a_number?(number)
+    break if number?(number)
   end
   number
 end
@@ -27,9 +28,9 @@ end
 def get_operator
   operator = ''
   loop do
-    print "Submit operator (+, -, /, *) or press Enter (or '=') to calculate: "
-    operator = gets
-    break unless not_an_operator?(operator)
+    print "Submit operator (+, -, /, *) or enter '=' to calculate: "
+    operator = gets.chomp
+    break if operator?(operator)
   end
   operator
 end
@@ -41,6 +42,7 @@ def update_equation(equation, user_input)
 end
 
 def print_equation(equation)
+  system "clear"
   puts equation
 end
 
@@ -52,16 +54,16 @@ def division?(operator)
   operator == "/"
 end
 
-def done?(operator)
-  operator.chomp == "=" || operator == "\n"
+def operator_is_equals_sign?(operator)
+  operator == "="
 end
 
-def not_a_number?(number)
-  !(number =~ /\A[-+]?[0-9]*\.?[0-9]+\Z/)
+def number?(number)
+  number =~ /\A[-+]?[0-9]*\.?[0-9]+\Z/
 end
 
-def not_an_operator?(operator)
-  !(operator =~ /[\-\+\*\/\=\n]/m)
+def operator?(operator)
+  %w(- * + / =).include?(operator)
 end
 
 # START's HERE
