@@ -8,7 +8,7 @@ def build_equation
   loop do 
     input = get_input_for_equation
     update_equation(equation, input)
-    break if operator == '='
+    break if input == '='
   end
   equation
 end
@@ -20,21 +20,21 @@ def get_input_for_equation
     puts "Available options: '+', '-', '*', '/', '%', '(', ')' '**'"
     puts "When you are done building your equation, enter '='."
     input = gets.chomp
-    break if is_number?(input)
-    break if is_operator?(input)
+    break if is_number?(input) || is_availabe_option?(input)
   end
   input
 end
 
-def is_number?(string)
-  true if Float(string) rescue false
+def is_number?(input)
+  true 
 end
 
-def is_operator?(operator)
-  %w(- * + / =).include?(operator)
+def is_availabe_option?(input)
+  %w(- + * / % ( ) ** =).include?(input)
 end
 
 def update_equation(equation, user_input)
+  return if user_input == '='
   update_equation_with_decimal(equation) if user_input == '/'
   equation << user_input << " "
   print_equation(equation)
