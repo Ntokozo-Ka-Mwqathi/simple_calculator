@@ -1,6 +1,10 @@
 def calculate(equation)
   system "clear"
-  "#{equation}= #{eval(equation)}"
+  begin
+    "#{equation}= #{eval(equation)}"
+  rescue(SyntaxError)
+    puts "That is not a valid equation."
+  end
 end
 
 def build_equation
@@ -26,22 +30,22 @@ def get_input_for_equation
 end
 
 def is_number?(input)
-  true 
+  input =~ /\A[-+]?[0-9]*\.?[0-9]+\Z/
 end
 
 def is_availabe_option?(input)
   %w(- + * / % ( ) ** =).include?(input)
 end
 
-def update_equation(equation, user_input)
-  return if user_input == '='
-  update_equation_with_decimal(equation) if user_input == '/'
-  equation << user_input << " "
+def update_equation(equation, input)
+  return if input == '='
+  update_equation_with_decimal(equation) if input == '/'
+  equation << input << " "
   print_equation(equation)
 end
 
 def update_equation_with_decimal(equation)
-  equation.chop! << ".0 "
+  equation.chop! << ".to_f "
 end
 
 def print_equation(equation)
