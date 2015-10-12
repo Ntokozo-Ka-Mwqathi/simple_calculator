@@ -1,5 +1,4 @@
 def calculate(equation)
-  system "clear"
   begin
     "#{equation}= #{eval(equation)}"
   rescue(SyntaxError)
@@ -54,4 +53,5 @@ def print_equation(equation)
 end
 
 # START's HERE
+system "clear"
 puts calculate(build_equation)
