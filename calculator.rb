@@ -9,8 +9,8 @@ def build_equation
     number = get_number
     update_equation(equation, number)
     operator = get_operator
-    break if operator_is_equals_sign?(operator)
-    update_equation(equation, operator.chomp)
+    break if operator == '='
+    update_equation(equation, operator)
   end
   equation
 end
@@ -20,25 +20,23 @@ def get_number
   loop do 
     print "Enter number: "
     number = gets.chomp
-    break if number?(number)
+    break if is_number?(number)
   end
   number
 end
 
-def get_operator
-  operator = ''
-  loop do
-    print "Submit operator (+, -, /, *) or enter '=' to calculate: "
-    operator = gets.chomp
-    break if operator?(operator)
-  end
-  operator
+def is_number?(string)
+  true if Float(string) rescue false
 end
 
 def update_equation(equation, user_input)
-  update_equation_with_decimal(equation) if division?(user_input)
+  update_equation_with_decimal(equation) if user_input == '/'
   equation << user_input << " "
   print_equation(equation)
+end
+
+def update_equation_with_decimal(equation)
+  equation.chop! << ".0 "
 end
 
 def print_equation(equation)
@@ -46,23 +44,17 @@ def print_equation(equation)
   puts equation
 end
 
-def update_equation_with_decimal(equation)
-  equation.chop! << ".0 "
+def get_operator
+  operator = ''
+  loop do
+    print "Submit operator (+, -, /, *) or enter '=' to calculate: "
+    operator = gets.chomp
+    break if is_operator?(operator)
+  end
+  operator
 end
 
-def division?(operator)
-  operator == "/"
-end
-
-def operator_is_equals_sign?(operator)
-  operator == "="
-end
-
-def number?(number)
-  number =~ /\A[-+]?[0-9]*\.?[0-9]+\Z/
-end
-
-def operator?(operator)
+def is_operator?(operator)
   %w(- * + / =).include?(operator)
 end
 
