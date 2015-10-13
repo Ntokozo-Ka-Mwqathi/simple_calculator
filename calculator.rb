@@ -2,7 +2,7 @@ def calculate(equation)
   begin
     "#{equation}= #{eval(equation)}"
   rescue(SyntaxError)
-    puts "That is not a valid equation."
+    "That is not a valid equation."
   end
 end
 
@@ -21,7 +21,7 @@ def get_input_for_equation
   loop do 
     puts "Enter a number or any of the options below to build your equation."
     puts "Available options: '+', '-', '*', '/', '%', '(', ')' '**'"
-    puts "When you are done building your equation, enter '='."
+    puts "Once you're done building your equation, check that its valid, then enter '='."
     input = gets.chomp
     break if is_number?(input) || is_availabe_option?(input)
   end
@@ -50,6 +50,13 @@ end
 def print_equation(equation)
   system "clear"
   puts equation
+  begin
+    "#{eval(equation)}"
+  rescue(SyntaxError)
+    puts "~~Not valid~~"
+  else
+    puts "~~Valid~~"
+  end
 end
 
 # START's HERE
