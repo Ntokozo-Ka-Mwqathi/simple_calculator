@@ -12,6 +12,7 @@ def build_equation
   loop do 
     input = get_input_for_equation
     update_equation(equation, input)
+    # Delete source equation:
     equation = delete_previous_entry(equation) if input == 'd'
     break if input == '='
   end
@@ -42,6 +43,7 @@ end
 def update_equation(equation, input)
   return if input == '='
   update_equation_with_decimal(equation) if input == '/'
+  # Delete printed equation only:
   equation = delete_previous_entry(equation) if input == 'd'
   equation << input << " " unless input == 'd'
   print_equation(equation)
@@ -54,12 +56,24 @@ end
 def delete_previous_entry(equation)
   equation_arr = equation.split
   equation_arr.pop
-  equation_arr.join(" ") << " "
+  add_spacing(equation_arr)
+end
+
+def add_spacing(equation_arr)
+  if equation_arr == []
+    equation_arr.join("")
+  else
+    equation_arr.join(" ") << " "
+  end
 end
 
 def print_equation(equation)
   system "clear"
   puts equation
+  print_validity_check(equation)
+end
+
+def print_validity_check(equation)
   begin
     "#{eval(equation)}"
   rescue(SyntaxError)
