@@ -9,12 +9,16 @@ end
 
 def build_equation
   equation = ""
-  loop do 
+  loop do
     input = get_input_for_equation
-    update_equation(equation, input)
-    # Delete source equation:
-    equation = delete_previous_entry(equation) if input == 'd'
-    break if input == '='
+
+    case input
+    when '=' then break
+    when 'd' then equation = equation_with_last_input_deleted(equation)
+    else update_equation(equation, input)
+    end
+
+    print_equation(equation)
   end
   equation
 end
@@ -27,7 +31,14 @@ def get_input_for_equation
     puts "Enter 'd' to delete the previous entry"
     puts "Once you're done building your equation, check that its valid, then enter '='."
     input = gets.chomp
-    break if is_number?(input) || is_availabe_option?(input)
+    if is_number?(input)
+      input = Float(input).to_s
+      break
+    elsif is_availabe_option?(input)
+      break
+    else
+      next
+    end
   end
   input
 end
@@ -41,19 +52,10 @@ def is_availabe_option?(input)
 end
 
 def update_equation(equation, input)
-  return if input == '='
-  update_equation_with_decimal(equation) if input == '/'
-  # Delete printed equation only:
-  equation = delete_previous_entry(equation) if input == 'd'
-  equation << input << " " unless input == 'd'
-  print_equation(equation)
+  equation << input << " "
 end
 
-def update_equation_with_decimal(equation)
-  equation.chop! << ".to_f "
-end
-
-def delete_previous_entry(equation)
+def equation_with_last_input_deleted(equation)
   equation_arr = equation.split
   equation_arr.pop
   add_spacing(equation_arr)
